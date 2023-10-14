@@ -9,7 +9,7 @@ const persons= [
         id:"56dsa56sd56das65"
     },
     {
-        name: "Midu 2",
+        name: "Itzi",
         phone: "91124654 2",
         street: "Calle Freont 2",
         city: "Barcelona 2",
@@ -57,6 +57,10 @@ const typeDefs =gql`
             street: String!
             city: String!
         ): Person
+        editNumber(
+            name: String!
+            phone: String!
+        ): Person
     }
 `
 
@@ -92,6 +96,16 @@ const resolvers = {
             const person = {...args, id: v4()}
             persons.push(person)
             return person
+        },
+        editNumber: (root, args)=>{
+            const personIndex = persons.findIndex(p=>p.name==args.name)
+            if(personIndex==-1) return null
+
+            const person = persons[personIndex]
+            const updtdPerson = {...person, phone: args.phone}
+
+            persons[personIndex] = updtdPerson
+            return updtdPerson
         }
     }
 }
